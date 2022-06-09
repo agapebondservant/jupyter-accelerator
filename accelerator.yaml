@@ -22,7 +22,7 @@ accelerator:
     type: Chain
     transformations:
     - type: Include
-      patterns: ['datasource-secrets.yaml']
+      patterns: ['datasource.yaml']
     - type: ReplaceText
       substitutions:
       - text: YOUR_DATASOURCE
