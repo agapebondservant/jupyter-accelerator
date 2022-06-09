@@ -20,6 +20,7 @@ accelerator:
     defaultValue: default
 engine:
   type: Merge
+  sources:
   - type: Chain
     transformations:
     - type: Include
