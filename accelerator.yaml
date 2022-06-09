@@ -18,8 +18,9 @@ accelerator:
     display: true
     label: 'Host Namespace for Jupyter Notebooks'
     defaultValue: default
-  engine:
-    type: Chain
+engine:
+  type: Merge
+  - type: Chain
     transformations:
     - type: Include
       patterns: ['datasource.yaml']
