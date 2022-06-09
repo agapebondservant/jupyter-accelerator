@@ -24,7 +24,7 @@ engine:
   - type: Chain
     transformations:
     - type: Include
-      patterns: ['datasource.yaml']
+      patterns: ['**']
     - type: ReplaceText
       substitutions:
       - text: YOUR_DATASOURCE
