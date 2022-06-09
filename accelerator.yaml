@@ -1,0 +1,33 @@
+accelerator:
+  displayName: Jupyter Utilities Accelerator
+  description: Utilities for deploying and extending JupyterHub notebooks
+  iconUrl: https://cdn.icon-icons.com/icons2/2667/PNG/512/jupyter_app_icon_161280.png
+  tags:
+  - "ML"
+  - "AI"
+  - "Jupyter"
+  options:
+  - name: datasourceName
+    display: true
+    label: 'Datasource Name'
+  - name: datasourceNamespace
+    display: true
+    label: 'Datasource Namespace'
+    defaultValue: default
+  - name: targetNamespace
+    display: true
+    label: 'Host Namespace for Jupyter Notebooks'
+    defaultValue: default
+  engine:
+    merge:
+      chain:
+        - type: ReplaceText
+          include: ['datasource-secrets.yaml']
+          substitutions:
+              - text: YOUR_DATASOURCE
+                with: "#datasourceName"
+              - text: YOUR_DATASOURCE_NAMESPACE
+                with: "#datasourceNamespace"
+              - text: YOUR_SESSION_NAMESPACE
+                with: "#targetNamespace"
+

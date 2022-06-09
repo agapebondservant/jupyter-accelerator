@@ -1,0 +1,226 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    meta.helm.sh/release-name: mlflow-jupyterhub
+    meta.helm.sh/release-namespace: jupyterhub
+  labels:
+    app.kubernetes.io/component: hub
+    app.kubernetes.io/instance: mlflow-jupyterhub
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: jupyterhub
+    helm.sh/chart: jupyterhub-1.3.10
+  name: mlflow-jupyterhub-hub
+  namespace: jupyterhub
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: hub
+      app.kubernetes.io/instance: mlflow-jupyterhub
+      app.kubernetes.io/name: jupyterhub
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        checksum/hub-config: 6fe721187dc8d0ef0b22d5c2f4a8dd30fe625c7cd7c10e0e6d22440afdb7fb95
+        checksum/hub-secret: 3874c33333f2de0469e6cb8ff337b7dd24b86685fc45da4a29a3166f004a8428
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/component: hub
+        app.kubernetes.io/instance: mlflow-jupyterhub
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: jupyterhub
+        helm.sh/chart: jupyterhub-1.3.10
+        hub.jupyter.org/network-access-proxy-api: "true"
+        hub.jupyter.org/network-access-proxy-http: "true"
+        hub.jupyter.org/network-access-singleuser: "true"
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/component: hub
+                  app.kubernetes.io/instance: mlflow-jupyterhub
+                  app.kubernetes.io/name: jupyterhub
+              namespaces:
+              - jupyterhub
+              topologyKey: kubernetes.io/hostname
+            weight: 1
+      containers:
+      - args:
+        - --config
+        - /etc/jupyterhub/jupyterhub_config.py
+        - --upgrade-db
+        command:
+        - jupyterhub
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: HELM_RELEASE_NAME
+          value: mlflow-jupyterhub
+        - name: PROXY_API_SERVICE_PORT
+          value: "8001"
+        - name: HUB_SERVICE_PORT
+          value: "8081"
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: CONFIGPROXY_AUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: proxy-token
+              name: mlflow-jupyterhub-hub
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: mlflow-jupyterhub-postgresql
+        image: gcr.io/sys-2b0109it/demo/bitnami/jupyterhub:1.5.0-centos-7-r180
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 30
+          httpGet:
+            path: /hub/health
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 3
+        name: hub
+        ports:
+        - containerPort: 8081
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 30
+          httpGet:
+            path: /hub/health
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 3
+        resources: {}
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+        startupProbe:
+          failureThreshold: 30
+          httpGet:
+            path: /hub/health
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 3
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/jupyterhub/jupyterhub_config.py
+          name: config
+          subPath: jupyterhub_config.py
+        - mountPath: /etc/jupyterhub/z2jh.py
+          name: config
+          subPath: z2jh.py
+        - mountPath: /etc/jupyterhub/secret/
+          name: secret
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - args:
+        - -ec
+        - |
+          #!/bin/bash
+
+          set -o errexit
+          set -o nounset
+          set -o pipefail
+
+          . /opt/bitnami/scripts/libos.sh
+          . /opt/bitnami/scripts/liblog.sh
+          . /opt/bitnami/scripts/libpostgresql.sh
+
+          check_postgresql_connection() {
+              echo "SELECT 1" | postgresql_remote_execute "$POSTGRESQL_CLIENT_DATABASE_HOST" "$POSTGRESQL_CLIENT_DATABASE_PORT_NUMBER" "$POSTGRESQL_CLIENT_DATABASE_NAME" "$POSTGRESQL_CLIENT_POSTGRES_USER" "$POSTGRESQL_CLIENT_CREATE_DATABASE_PASSWORD"
+          }
+
+          info "Connecting to the PostgreSQL instance $POSTGRESQL_CLIENT_DATABASE_HOST:$POSTGRESQL_CLIENT_DATABASE_PORT_NUMBER"
+          if ! retry_while "check_postgresql_connection"; then
+              error "Could not connect to the database server"
+              return 1
+          else
+              info "Connected to the PostgreSQL instance"
+          fi
+        command:
+        - /bin/bash
+        env:
+        - name: POSTGRESQL_CLIENT_DATABASE_HOST
+          value: mlflow-jupyterhub-postgresql
+        - name: POSTGRESQL_CLIENT_DATABASE_NAME
+          value: bitnami_jupyterhub
+        - name: POSTGRESQL_CLIENT_DATABASE_PORT_NUMBER
+          value: "5432"
+        - name: POSTGRESQL_CLIENT_CREATE_DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: mlflow-jupyterhub-postgresql
+        - name: POSTGRESQL_CLIENT_POSTGRES_USER
+          value: bn_jupyterhub
+        image: gcr.io/sys-2b0109it/demo/bitnami/postgresql:14.3.0-centos-7-r21
+        imagePullPolicy: IfNotPresent
+        name: wait-for-db
+        resources: {}
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 1001
+      serviceAccount: mlflow-jupyterhub-hub
+      serviceAccountName: mlflow-jupyterhub-hub
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: mlflow-jupyterhub-hub
+        name: config
+      - name: secret
+        secret:
+          defaultMode: 420
+          secretName: mlflow-jupyterhub-hub
+status:
+  conditions:
+  - lastTransitionTime: "2022-06-09T06:07:46Z"
+    lastUpdateTime: "2022-06-09T06:07:46Z"
+    message: Deployment does not have minimum availability.
+    reason: MinimumReplicasUnavailable
+    status: "False"
+    type: Available
+  - lastTransitionTime: "2022-06-09T06:07:46Z"
+    lastUpdateTime: "2022-06-09T06:07:46Z"
+    message: ReplicaSet "mlflow-jupyterhub-hub-599b8789c4" is progressing.
+    reason: ReplicaSetUpdated
+    status: "True"
+    type: Progressing
+  observedGeneration: 1
+  replicas: 1
+  unavailableReplicas: 1
+  updatedReplicas: 1
