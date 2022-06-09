@@ -19,15 +19,16 @@ accelerator:
     label: 'Host Namespace for Jupyter Notebooks'
     defaultValue: default
   engine:
-    merge:
-      - include: ['datasource-secrets.yaml']
-        chain:
-        - type: ReplaceText
-          substitutions:
-              - text: YOUR_DATASOURCE
-                with: "#datasourceName"
-              - text: YOUR_DATASOURCE_NAMESPACE
-                with: "#datasourceNamespace"
-              - text: YOUR_SESSION_NAMESPACE
-                with: "#targetNamespace"
+    type: Chain
+    transformations:
+    - type: Include
+      patterns: ['datasource-secrets.yaml']
+    - type: ReplaceText
+      substitutions:
+      - text: YOUR_DATASOURCE
+        with: "#datasourceName"
+      - text: YOUR_DATASOURCE_NAMESPACE
+        with: "#datasourceNamespace"
+      - text: YOUR_SESSION_NAMESPACE
+        with: "#targetNamespace"
 
