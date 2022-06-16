@@ -2,7 +2,7 @@
 apiVersion: bindings.labs.vmware.com/v1alpha1
 kind: ProvisionedService
 metadata:
-  name: YOUR_DATASOURCE-provisioned-service
+  name: YOUR_DATASOURCE
 spec:
   binding:
     name: YOUR_DATASOURCE-app-user-db-secret
@@ -10,12 +10,12 @@ spec:
 apiVersion: servicebinding.io/v1beta1
 kind: ServiceBinding
 metadata:
-  name: YOUR_DATASOURCE-service-binding
+  name: YOUR_DATASOURCE
 spec:
   service:
     apiVersion: bindings.labs.vmware.com/v1alpha1
     kind: ProvisionedService
-    name: YOUR_DATASOURCE-provisioned-service
+    name: YOUR_DATASOURCE
   workload:
     apiVersion: apps/v1
     kind: Deployment
