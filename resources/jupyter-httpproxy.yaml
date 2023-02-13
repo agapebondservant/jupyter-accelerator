@@ -1,0 +1,16 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: jupyterhub-httpproxy
+spec:
+  routes:
+    - conditions:
+        - prefix: /
+      services:
+        - name: jupyterhub-proxy-public
+          port: 80
+  virtualhost:
+    fqdn: #@ "jupyterhub." + data.values.base_domain
+

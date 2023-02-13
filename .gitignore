@@ -1,0 +1,8 @@
+.env
+tmp*.yaml
+package-contents
+package-repo
+resources/jupyter-packagerepository
+resources/jupyter-package-template.yaml
+resources/jupyter-values.yaml
+resources/jupyter-deployment.yaml

@@ -1,0 +1,5 @@
+---
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: jupyterhub-package-repository

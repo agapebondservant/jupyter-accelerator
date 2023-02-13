@@ -1,0 +1,21 @@
+#@data/values-schema
+---
+#@schema/desc "JupyterHub namespace"
+#@schema/type any=True
+namespace: default
+
+#@schema/desc "Container image"
+#@schema/type any=True
+image: oawofolu/jupyterhub-single-user
+
+#@schema/desc "Version"
+#@schema/type any=True
+version: 1.0.0
+
+#@schema/desc "Domain"
+#@schema/type any=True
+base_domain:
+
+#@schema/desc "Container Image User"
+#@schema/type any=True
+container_repo_user: oawofolu

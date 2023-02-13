@@ -1,0 +1,13 @@
+apiVersion: data.packaging.carvel.dev/v1alpha1
+kind: PackageMetadata
+metadata:
+  name: jupyter.tanzu.vmware.com
+spec:
+  displayName: "JupyterHub on Tanzu"
+  longDescription: "Provides management environment for Jupyter notebooks"
+  shortDescription: "Management environment for Jupyter notebooks"
+  categories:
+    - ML
+    - AI
+    - datascience
+    - "machine learning"

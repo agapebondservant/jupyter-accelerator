@@ -1,0 +1,9 @@
+singleuser:
+  # extraEnvVars: ['SERVICE_BINDING_ROOT']
+  uid: 0
+  image:
+    registry: index.docker.io
+    repository: oawofolu/jupyterhub
+    tag: latest
+imagePullSecrets:
+  - jupyter-pull-secret
