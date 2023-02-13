@@ -4,9 +4,9 @@
 apiVersion: data.packaging.carvel.dev/v1alpha1
 kind: Package
 metadata:
-  name: #@ "jupyter.tanzu.vmwware.com." + data.values.version
+  name: #@ "jupyter.tanzu.vmware.com." + data.values.version
 spec:
-  refName: jupyter.tanzu.vmwware.com
+  refName: jupyter.tanzu.vmware.com
   version: #@ data.values.version
   releaseNotes: |
     Initial release of the Jupyterhub package
