@@ -12,5 +12,5 @@ spec:
         - name: jupyterhub-proxy-public
           port: 80
   virtualhost:
-    fqdn: #@ "jupyterhub." + data.values.base_domain
+    fqdn: #@ "jupyterhub-${JUPYTER_NAMESPACE}." + data.values.base_domain
 

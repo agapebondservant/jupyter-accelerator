@@ -71,5 +71,5 @@ tanzu package repository delete jupyterhub-package-repository --namespace ${JUPY
 kubectl delete ns ${JUPYTER_NAMESPACE} || true
 ```
 
-Finally, Jupyterhub should now be accessible at http://jupyterhub.${JUPYTER_BASE_DOMAIN}. 
+Finally, Jupyterhub should now be accessible at http://jupyterhub-${JUPYTER_NAMESPACE}.${JUPYTER_BASE_DOMAIN}. 
 Login with credentials ${JUPYTERHUB_USER} / ${JUPYTERHUB_PASSWORD}.
