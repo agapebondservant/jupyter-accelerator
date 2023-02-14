@@ -26,4 +26,4 @@ login_username: jupyter
 
 #@schema/desc "Login Password"
 #@schema/type any=True
-login_password: jupyter123
+login_password: jupyter
