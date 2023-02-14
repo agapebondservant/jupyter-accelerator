@@ -56,7 +56,7 @@ resources/scripts/generate-values-yaml.sh resources/jupyter-values.yaml #replace
 
 Install via **tanzu cli**:
 ```
-tanzu package install jupyterhub -p jupyter.tanzu.vmware.com -v 1.0.0 --values-file resources/jupyter-values.yaml --namespace ${JUPYTER_NAMESPACE}
+tanzu package install jupyterhub -p jupyter.tanzu.vmware.com -v ${JUPYTER_CURRENT_VERSION} --values-file resources/jupyter-values.yaml --namespace ${JUPYTER_NAMESPACE}
 ```
 
 Verify that the install was successful:

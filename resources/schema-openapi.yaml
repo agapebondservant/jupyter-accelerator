@@ -29,3 +29,11 @@ components:
           nullable: true
           description: Container Image User
           default: oawofolu
+        login_username:
+          nullable: true
+          description: Login Username
+          default: jupyter
+        login_password:
+          nullable: true
+          description: Login Password
+          default: jupyter123
