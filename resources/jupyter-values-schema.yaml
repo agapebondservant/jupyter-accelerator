@@ -19,3 +19,11 @@ base_domain:
 #@schema/desc "Container Image User"
 #@schema/type any=True
 container_repo_user: oawofolu
+
+#@schema/desc "Login Username"
+#@schema/type any=True
+login_username: jupyter
+
+#@schema/desc "Login Password"
+#@schema/type any=True
+login_password: jupyter123
