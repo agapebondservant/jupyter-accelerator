@@ -11,7 +11,7 @@ components:
       properties:
         namespace:
           nullable: true
-          description: JupyterHub namespace
+          description: Unique JupyterHub namespace
           default: default
         image:
           nullable: true
