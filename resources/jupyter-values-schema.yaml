@@ -12,7 +12,7 @@ image: oawofolu/jupyterhub-single-user
 #@schema/type any=True
 version: 1.0.0
 
-#@schema/desc "Domain"
+#@schema/desc "URL Domain, example: myjupyter.com"
 #@schema/type any=True
 base_domain:
 
