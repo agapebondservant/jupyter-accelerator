@@ -10,7 +10,7 @@ mkdir -p package-contents/.imgpkg package-contents/config package-repo/packages/
 # Copy required files
 helm template jupyterhub bitnami/jupyterhub \
 --set hub.adminUser=${JUPYTERHUB_USER} \
---set hub.password=${JUPYTERHUB_PASSWORD} -n ${JUPYTER_NAMESPACE} > resources/jupyter-deployment.yaml
+--set hub.password=${JUPYTERHUB_PASSWORD} -n ${JUPYTER_NAMESPACE} | sed '/namespace:/d' > resources/jupyter-deployment.yaml
 cp resources/jupyter-deployment.yaml package-contents/config
 cp resources/jupyter-httpproxy.yaml package-contents/config
 cp resources/jupyter-values-schema.yaml package-contents/config
