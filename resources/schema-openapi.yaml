@@ -23,7 +23,7 @@ components:
           default: 1.0.0
         base_domain:
           nullable: true
-          description: Domain
+          description: 'URL Domain, example: myjupyter.com'
           default: null
         container_repo_user:
           nullable: true
@@ -36,4 +36,4 @@ components:
         login_password:
           nullable: true
           description: Login Password
-          default: jupyter123
+          default: jupyter
