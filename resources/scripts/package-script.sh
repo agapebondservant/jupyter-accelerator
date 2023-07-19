@@ -25,7 +25,9 @@ imgpkg push -b ${JUPYTER_REGISTRY_USERNAME}/jupyter-package-content:${JUPYTER_CU
 # Generate the Package CR from the schema:
 envsubst < resources/jupyter-package-template.in.yaml > resources/jupyter-package-template.yaml
 ytt -f package-contents/config/jupyter-values-schema.yaml --data-values-schema-inspect -o openapi-v3 > resources/schema-openapi.yaml
+sed -i '.bak' '/object/d' resources/schema-openapi.yaml
 ytt -f resources/jupyter-package-template.yaml  --data-value-file openapi=resources/schema-openapi.yaml -v version="${JUPYTER_CURRENT_VERSION}" > package-repo/packages/jupyter.tanzu.vmware.com/${JUPYTER_CURRENT_VERSION}.yaml
+rm -f resources/schema-openapi.yaml.bak
 
 # Generate ImagesLock to record images in the package repo:
 kbld -f package-repo/packages --imgpkg-lock-output package-repo/.imgpkg/images.yml

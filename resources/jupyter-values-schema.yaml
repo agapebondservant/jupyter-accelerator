@@ -1,29 +1,22 @@
 #@data/values-schema
 ---
 #@schema/desc "Unique JupyterHub namespace"
-#@schema/type any=True
 namespace: default
 
 #@schema/desc "Container image"
-#@schema/type any=True
 image: oawofolu/jupyterhub-single-user
 
 #@schema/desc "Version"
-#@schema/type any=True
 version: 1.0.0
 
 #@schema/desc "URL Domain, example: myjupyter.com"
-#@schema/type any=True
-base_domain:
+base_domain: tanzumlai.com
 
 #@schema/desc "Container Image User"
-#@schema/type any=True
 container_repo_user: oawofolu
 
 #@schema/desc "Login Username"
-#@schema/type any=True
 login_username: jupyter
 
 #@schema/desc "Login Password"
-#@schema/type any=True
 login_password: jupyter

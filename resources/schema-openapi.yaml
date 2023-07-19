@@ -6,34 +6,33 @@ paths: {}
 components:
   schemas:
     dataValues:
-      type: object
       additionalProperties: false
       properties:
         namespace:
-          nullable: true
+          type: string
           description: Unique JupyterHub namespace
           default: default
         image:
-          nullable: true
+          type: string
           description: Container image
           default: oawofolu/jupyterhub-single-user
         version:
-          nullable: true
+          type: string
           description: Version
           default: 1.0.0
         base_domain:
-          nullable: true
+          type: string
           description: 'URL Domain, example: myjupyter.com'
-          default: null
+          default: tanzumlai.com
         container_repo_user:
-          nullable: true
+          type: string
           description: Container Image User
           default: oawofolu
         login_username:
-          nullable: true
+          type: string
           description: Login Username
           default: jupyter
         login_password:
-          nullable: true
+          type: string
           description: Login Password
           default: jupyter

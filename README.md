@@ -38,10 +38,10 @@ resources/scripts/package-script.sh
 ## Deploying JupyterHub Package Repository
 * Install the JupyterHub Package Repository:
 ```
+kubectl create ns ${JUPYTER_NAMESPACE} || true
 tanzu package repository add jupyterhub-package-repository \
   --url ${JUPYTER_REGISTRY_USERNAME}/jupyter-package-repo:${JUPYTER_CURRENT_VERSION} \
-  --namespace ${JUPYTER_NAMESPACE} \
-  --create-namespace
+  --namespace ${JUPYTER_NAMESPACE}
 ```
 
 Verify that the Jupyterhub package is available for install:
