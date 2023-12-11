@@ -73,3 +73,32 @@ kubectl delete ns ${JUPYTER_NAMESPACE} || true
 
 Finally, Jupyterhub should now be accessible at http://jupyter-${JUPYTER_NAMESPACE}.${JUPYTER_BASE_DOMAIN}. 
 Login with credentials ${JUPYTERHUB_USER} / ${JUPYTERHUB_PASSWORD}.
+
+## Deploying Jupyterhub via Helm Chart
+* Build the JupyterHub container (skip if already built):
+```
+source .env
+cd resources/archived
+docker build -t ${JUPYTER_REGISTRY_USERNAME}/jupyterhub-single-user-helm:3.2.1 .
+docker push ${JUPYTER_REGISTRY_USERNAME}/jupyterhub-single-user-helm:3.2.1
+cd -
+```
+
+* Deploy the NFS Server (skip if already deployed):
+```
+source .env
+resources/scripts/deploy-nfs-server.sh
+```
+
+* Deploy JupyterHub:
+```
+source .env
+resources/scripts/deploy-helm.sh
+```
+
+* To uninstall:
+```
+source .env
+helm uninstall my-jupyter -n $JUPYTER_NAMESPACE
+kubectl delete ns ${JUPYTER_NAMESPACE} || true (unless JUPYTER_NAMESPACE==default)
+```

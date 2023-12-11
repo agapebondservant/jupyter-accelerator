@@ -1,0 +1,8 @@
+numpy
+pandas
+seaborn
+tensorflow
+jupyter_contrib_nbextensions
+jupyter_nbextensions_configurator
+ipython-sql
+sqlalchemy

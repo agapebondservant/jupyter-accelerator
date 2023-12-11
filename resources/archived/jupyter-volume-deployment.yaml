@@ -1,0 +1,50 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: bkstg-servicebindings
+spec:
+  storageClassName: nfs-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bkstg-servicebindings
+  labels:
+    backstage-dashboard-category: "servicebinding"
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: ubuntu
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ubuntu
+    spec:
+      containers:
+        - name: ubuntu
+          image: ubuntu
+          env:
+            - name: SERVICE_BINDING_ROOT
+              value: /home/bindings
+          command: ["/bin/sh", "-c"]
+          args:
+            - while true; do
+                cp -r /home/bindings /tmp || echo "Bindngs directory not found; retry...";
+                sleep 5;
+              done;
+          volumeMounts:
+            - mountPath: /tmp
+              name: volume
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: bkstg-servicebindings

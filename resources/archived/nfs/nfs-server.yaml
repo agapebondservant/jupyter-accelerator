@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-server
+  namespace: storage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: nfs-server
+  template:
+    metadata:
+      labels:
+        role: nfs-server
+    spec:
+      containers:
+        - name: nfs-server
+          image: itsthenetwork/nfs-server-alpine:latest
+          ports:
+            - name: nfs
+              containerPort: 2049
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - mountPath: /nfs
+              name: nfs-volume
+          env:
+            - name: SHARED_DIRECTORY
+              value: /nfs
+      volumes:
+        - name: nfs-volume
+          persistentVolumeClaim:
+            claimName: nfs-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nfs-service
+  namespace: storage
+spec:
+  ports:
+    - name: nfs
+      port: 2049
+  selector:
+    role: nfs-server
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-pvc
+  namespace: storage
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-csi
+provisioner: nfs.csi.k8s.io
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  server: nfs-service.storage.svc.cluster.local
+  share: /
