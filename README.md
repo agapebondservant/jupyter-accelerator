@@ -90,15 +90,40 @@ source .env
 resources/scripts/deploy-nfs-server.sh
 ```
 
+* Set up registry credentials' secret (skip if already deployed):
+```
+source .env
+tanzu secret registry add registry-credentials \
+--username ${JUPYTER_REGISTRY_USERNAME} \
+--password ${JUPYTER_REGISTRY_PASSWORD} \
+--server ${JUPYTER_REGISTRY_SERVER} \
+--export-to-all-namespaces --yes -n${JUPYTER_NAMESPACE}
+```
+
+* (Skip if already deployed): Set up an **extraVolume** which will aggregate all the **ServiceBindings** for this JupyterHub environment.
+The volume will be mounted by a Deployment called **bkstg-aggregator**, 
+which will serve as a ServiceBinding-compatible Workload and receptacle for all relevant **ServiceBindings**.
+In turn, the JupyterHub environment will use a ReadWriteMany PVC to mount the volume from **bkstg-aggregator** and project the ServiceBindings locally.
+```
+resources/scripts/deploy-extravolume.sh
+```
+
 * Deploy JupyterHub:
 ```
 source .env
 resources/scripts/deploy-helm.sh
 ```
 
+* The JupyterHub instance endpoint should be available here - might take up to a minute to load. (NOTE: Uses dummy authentication, so authenticate with any username/password):
+```
+export JUPYTERHUB_URL_INSTANCE=$(kubectl get svc --namespace ${JUPYTER_NAMESPACE} proxy-public -o jsonpath="{.status.loadBalancer.ingress[0].hostname}")
+echo http://$JUPYTERHUB_URL_INSTANCE
+```
+
 * To uninstall:
 ```
 source .env
-helm uninstall my-jupyter -n $JUPYTER_NAMESPACE
-kubectl delete ns ${JUPYTER_NAMESPACE} || true (unless JUPYTER_NAMESPACE==default)
+resources/scripts/undeploy-helm.sh
+resources/scripts/undeploy-nfs-server.sh
+resources/scripts/undeploy-extravolume.sh
 ```

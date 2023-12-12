@@ -1,0 +1,11 @@
+#@ load("@ytt:overlay", "overlay")
+#@ load("@ytt:data", "data")
+#@overlay/match by=overlay.subset({"singleuser":{"storage":{"type":"dynamic"}}}), expects="1+"
+---
+singleuser:
+  storage:
+    #@overlay/replace
+    extraVolumes:
+      - name: #@ data.values.extra_volume_1
+        persistentVolumeClaim:
+          claimName: #@ data.values.extra_volume_1_claim_name

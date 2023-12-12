@@ -1,7 +1,8 @@
 #!/bin/sh
 
 helm uninstall my-jupyter -n $JUPYTER_NAMESPACE
-ytt -f resources/archived/jupyter-httpproxy.yaml \
-    -f resources/archived/jupyter-volume-deployment.yaml \
-    -f resources/archived/values.yaml | kubectl delete -n ${JUPYTER_NAMESPACE} -f -
+
+# delete all pods and pvcs associated with jupyterhub
+kubectl delete pod -l app=jupyterhub -n ${JUPYTER_NAMESPACE}
+kubectl delete pvc -l app=jupyterhub -n ${JUPYTER_NAMESPACE}
 

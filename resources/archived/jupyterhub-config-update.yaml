@@ -1,0 +1,28 @@
+#@ load("@ytt:data", "data")
+---
+# singleuser relates to the configuration of KubeSpawner which runs in the hub
+# pod, and its spawning of user pods such as jupyter-myusername.
+singleuser:
+  extraEnv:
+    SERVICE_BINDING_ROOT: #@ data.values.extra_env_service_binding_root
+  lifecycleHooks:
+    postStart:
+      exec:
+        command:
+          - "sh"
+          - "-c"
+          - #@ data.values.lifecycle_posthook
+  storage:
+    type: dynamic
+    extraVolumes:
+      - name: #@ data.values.extra_volume_1
+        emptyDir: {}
+    extraVolumeMounts:
+      - mountPath: #@ data.values.extra_volume_1_claim_mount_path
+        name: #@ data.values.extra_volume_1
+  image:
+    name: #@ data.values.image_name
+    tag: #@ data.values.image_tag
+    pullPolicy: #@ data.values.image_pull_policy
+    pullSecrets:
+      - #@ data.values.image_pull_secret

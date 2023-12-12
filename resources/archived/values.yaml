@@ -2,3 +2,21 @@
 ---
 namespace: default
 base_domain: tanzudatatap.com
+image_name: oawofolu/jupyterhub-single-user-helm
+image_tag: "3.2.1"
+image_pull_secret: registry-credentials
+image_pull_policy: Always
+extra_volume_1: bkstg-volume
+extra_volume_1_claim_mount_path: /sbroot
+extra_env_service_binding_root: /sbroot/bindings
+lifecycle_posthook: |
+  echo "Setting up ServiceBindings module...";
+  mkdir -p /home/jovyan/.ipython/profile_default/startup;
+  cp /tmp/*.py /home/jovyan/.ipython/profile_default/startup;
+  cp /tmp/*.ipynb /home/jovyan/;
+  cp -r /tmp/git/bindings /home/jovyan/;
+  echo "Completed.";
+# extra_volume_1_claim_name is used to declare the name of an existing PersistentVolumeClaim that hosts the Service Bindings
+# if none exists, leave this blank
+extra_volume_1_claim_name: bkstg-servicebindings
+

@@ -1,3 +1,5 @@
+#@ load("@ytt:data", "data")
+---
 # fullnameOverride and nameOverride distinguishes blank strings, null values,
 # and non-blank strings. For more details, see the configuration reference.
 fullnameOverride: ""
@@ -373,19 +375,14 @@ singleuser:
     hub.jupyter.org/network-access-hub: "true"
   extraFiles: {}
   extraEnv:
-    SERVICE_BINDING_ROOT: /sbroot/bindings
+    SERVICE_BINDING_ROOT: #@ data.values.extra_env_service_binding_root
   lifecycleHooks:
     postStart:
       exec:
         command:
           - "sh"
           - "-c"
-          - |
-            echo "Setting up ServiceBindings module...";
-            mkdir -p /home/jovyan/.ipython/profile_default/startup;
-            cp /tmp/*.py /home/jovyan/.ipython/profile_default/startup;
-            cp /tmp/git/bindings /home/jovyan/;
-            echo "Completed.";
+          - #@ data.values.lifecycle_posthook
   initContainers: []
   extraContainers: []
   allowPrivilegeEscalation: false
@@ -396,12 +393,11 @@ singleuser:
     type: dynamic
     extraLabels: {}
     extraVolumes:
-      - name: bkstg-volume
-        persistentVolumeClaim:
-          claimName: bkstg-servicebindings
+      - name: #@ data.values.extra_volume_1
+        emptyDir: {}
     extraVolumeMounts:
-      - mountPath: /sbroot
-        name: bkstg-volume
+      - mountPath: #@ data.values.extra_volume_1_claim_mount_path
+        name: #@ data.values.extra_volume_1
     static:
       pvcName:
       subPath: "{username}"
@@ -413,11 +409,11 @@ singleuser:
       volumeNameTemplate: volume-{username}{servername}
       storageAccessModes: [ReadWriteOnce]
   image:
-    name: oawofolu/jupyterhub-single-user-helm
-    tag: "3.2.1"
-    pullPolicy: Always
+    name: #@ data.values.image_name
+    tag: #@ data.values.image_tag
+    pullPolicy: #@ data.values.image_pull_policy
     pullSecrets:
-      - jupyter-pull-secret
+      - #@ data.values.image_pull_secret
   startTimeout: 300
   cpu:
     limit:

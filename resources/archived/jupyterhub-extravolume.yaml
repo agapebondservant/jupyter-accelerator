@@ -14,7 +14,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bkstg-servicebindings
+  name: bkstg-aggregator
   labels:
     backstage-dashboard-category: "servicebinding"
 spec:
