@@ -15,6 +15,7 @@ lifecycle_posthook: |
   cp /tmp/*.py /home/jovyan/.ipython/profile_default/startup;
   cp /tmp/*.ipynb /home/jovyan/;
   cp -r /tmp/git/bindings /home/jovyan/;
+  pip install /tmp/requirements.txt;
   echo "Completed.";
 # extra_volume_1_claim_name is used to declare the name of an existing PersistentVolumeClaim that hosts the Service Bindings
 # if none exists, leave this blank
