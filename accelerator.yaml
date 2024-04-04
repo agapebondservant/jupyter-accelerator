@@ -114,11 +114,19 @@ accelerator:
       dependsOn:
         name: mlPlatformType
         value: notebook
-    - name: proxyIngressAnnotationsIngressEnabled
+    - name: proxyIngressEnabled
       inputType: text
       display: true
-      label: 'proxy.ingress.annotations.ingress.enabled'
+      label: 'proxy.ingress.enabled'
       defaultValue: 'true'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: proxyIngressHostname
+      inputType: text
+      display: true
+      label: 'proxy.ingress.hostname'
+      defaultValue: 'yourhostname.com'
       dependsOn:
         name: mlPlatformType
         value: notebook
@@ -177,8 +185,10 @@ engine:
               with: "#proxyServicePublicType"
             - text: REPLACE_PROXY_SERVICE_PUBLIC_PORTS_HTTP
               with: "#proxyServicePublicPortsHttp"
-            - text: REPLACE_PROXY_INGRESS_ANNOTATIONS_INGRESS_ENABLED
-              with: "#proxyIngressAnnotationsIngressEnabled"
+            - text: REPLACE_PROXY_INGRESS_ENABLED
+              with: "#proxyIngressEnabled"
+            - text: REPLACE_PROXY_INGRESS_HOSTNAME
+              with: "#proxyIngressHostname"
             - text: REPLACE_PROXY_INGRESS_ANNOTATIONS_WEBSOCKET_ROUTES
               with: "#proxyIngressAnnotationsWebsocketRoutes"
             - text: REPLACE_PROXY_INGRESS_ANNOTATIONS_TLS

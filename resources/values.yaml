@@ -1170,7 +1170,7 @@ proxy:
     ## @param proxy.ingress.enabled Set to true to enable ingress record generation
     ##
     #    enabled: false
-    enabled: REPLACE_PROXY_INGRESS_ANNOTATIONS_INGRESS_ENABLED
+    enabled: REPLACE_PROXY_INGRESS_ENABLED
     ## @param proxy.ingress.apiVersion Force Ingress API version (automatically detected if not set)
     ##
     apiVersion: ""
@@ -1184,7 +1184,7 @@ proxy:
     pathType: ImplementationSpecific
     ## @param proxy.ingress.hostname Set ingress rule hostname
     ##
-    #    hostname: jupyterhub2.tanzumlai.com
+    hostname: REPLACE_PROXY_INGRESS_HOSTNAME
     ## @param proxy.ingress.path Path to the Proxy pod
     ## NOTE: You may need to set this to '/*' in order to use this with ALB ingress controllers
     ##
