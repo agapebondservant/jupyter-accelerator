@@ -102,7 +102,7 @@ accelerator:
       inputType: text
       display: true
       label: 'proxy.service.public.type'
-      defaultValue: 'ClusterIP'
+      defaultValue: 'LoadBalancer'
       dependsOn:
         name: mlPlatformType
         value: notebook
@@ -111,6 +111,38 @@ accelerator:
       display: true
       label: 'proxy.service.public.ports.http'
       defaultValue: '8009'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: proxyIngressAnnotationsIngressEnabled
+      inputType: text
+      display: true
+      label: 'proxy.ingress.annotations.ingress.enabled'
+      defaultValue: 'true'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: proxyIngressAnnotationsWebsocketRoutes
+      inputType: text
+      display: true
+      label: 'proxy.ingress.annotations.websocket.routes'
+      defaultValue: '/'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: proxyIngressAnnotationsTls
+      inputType: text
+      display: true
+      label: 'proxy.ingress.annotations.tls'
+      defaultValue: 'true'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: proxyIngressAnnotationsSelfSigned
+      inputType: text
+      display: true
+      label: 'proxy.ingress.annotations.self.signed'
+      defaultValue: 'contour'
       dependsOn:
         name: mlPlatformType
         value: notebook
@@ -145,6 +177,14 @@ engine:
               with: "#proxyServicePublicType"
             - text: REPLACE_PROXY_SERVICE_PUBLIC_PORTS_HTTP
               with: "#proxyServicePublicPortsHttp"
+            - text: REPLACE_PROXY_INGRESS_ANNOTATIONS_INGRESS_ENABLED
+              with: "#proxyIngressAnnotationsIngressEnabled"
+            - text: REPLACE_PROXY_INGRESS_ANNOTATIONS_WEBSOCKET_ROUTES
+              with: "#proxyIngressAnnotationsWebsocketRoutes"
+            - text: REPLACE_PROXY_INGRESS_ANNOTATIONS_TLS
+              with: "#proxyIngressAnnotationsTls"
+            - text: REPLACE_PROXY_INGRESS_ANNOTATIONS_SELF_SIGNED
+              with: "#proxyIngressAnnotationsSelfSigned"
 
 
 
