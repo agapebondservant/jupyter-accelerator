@@ -17,5 +17,5 @@ tanzu acc create jupyter --git-repository https://github.com/agapebondservant/ju
 
 Publish Fragments:
 ```
-tanzu acc fragment create airflow-fragment --git-repository https://github.com/agapebondservant/jupyter-accelerator.git --git-branch bitnami
+tanzu acc fragment create bitnami-jupyter-fragment --git-repository https://github.com/agapebondservant/jupyter-accelerator.git --git-branch bitnami
 ```
