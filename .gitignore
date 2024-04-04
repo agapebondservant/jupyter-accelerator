@@ -1,4 +1,5 @@
 .env
+.env-sample
 tmp*.yaml
 package-contents
 package-repo

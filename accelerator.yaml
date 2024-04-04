@@ -3,34 +3,148 @@ accelerator:
   description: Utilities for deploying and extending JupyterHub notebooks
   iconUrl: https://cdn.icon-icons.com/icons2/2667/PNG/512/jupyter_app_icon_161280.png
   tags:
-  - "ML"
-  - "AI"
-  - "Jupyter"
+    - "ML"
+    - "AI"
+    - "notebooks"
+    - "datascience"
+    - "jupyter"
   options:
-  - name: datasourceName
-    display: true
-    label: 'Datasource Name'
-  - name: datasourceNamespace
-    display: true
-    label: 'Datasource Namespace'
-    defaultValue: default
-  - name: targetNamespace
-    display: true
-    label: 'Host Namespace for Jupyter Notebooks'
-    defaultValue: default
+    - name: jupyter
+      inputType: radio
+      display: true
+      choices:
+        - text: 'Jupyter (ML Notebook / Experimentation)'
+          value: selected
+      defaultValue: selected
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: mlPlatformType
+      inputType: radio
+      display: true
+      choices:
+        - text: 'View guidance manual: https://github.com/bitnami/charts/tree/main/bitnami/jupyterhub'
+          value: notebook
+      defaultValue: notebook
+    - name: singleuserImageRegistry
+      inputType: text
+      display: true
+      label: 'singleuser.image.registry'
+      defaultValue: 'docker.io'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: singleuserImageRepository
+      inputType: text
+      display: true
+      label: 'singleuser.image.repository'
+      defaultValue: 'jupyter/tensorflow-notebook'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: singleuserImageTag
+      inputType: text
+      display: true
+      label: 'singleuser.image.tag'
+      defaultValue: 'python-3.11'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: singleuserImagePullPolicy
+      inputType: text
+      display: true
+      label: 'singleuser.image.pullPolicy'
+      defaultValue: 'Always'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: singleuserCommand
+      inputType: text
+      display: true
+      label: 'singleuser.image.command'
+      defaultValue: 'start-notebook.py'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: singleuserContainersecuritycontextRunAsuser
+      inputType: text
+      display: true
+      label: 'singleuser.containerSecurityContext.runAsUser'
+      defaultValue: '1000'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: singleuserContainersecuritycontextRunAsgroup
+      inputType: text
+      display: true
+      label: 'singleuser.containerSecurityContext.runAsGroup'
+      defaultValue: '100'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: singleuserPodsecuritycontextRunAsuser
+      inputType: text
+      display: true
+      label: 'singleuser.podSecurityContext.runAsUser'
+      defaultValue: '1000'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: singleuserPodsecuritycontextRunAsgroup
+      inputType: text
+      display: true
+      label: 'singleuser.podSecurityContext.runAsGroup'
+      defaultValue: '100'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: proxyServicePublicType
+      inputType: text
+      display: true
+      label: 'proxy.service.public.type'
+      defaultValue: 'ClusterIP'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
+    - name: proxyServicePublicPortsHttp
+      inputType: text
+      display: true
+      label: 'proxy.service.public.ports.http'
+      defaultValue: 'ClusterIP'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
 engine:
   type: Merge
   sources:
-  - type: Chain
-    transformations:
-    - type: Include
-      patterns: ['**']
-    - type: ReplaceText
-      substitutions:
-      - text: YOUR_DATASOURCE
-        with: "#datasourceName"
-      - text: YOUR_DATASOURCE_NAMESPACE
-        with: "#datasourceNamespace"
-      - text: YOUR_SESSION_NAMESPACE
-        with: "#targetNamespace"
+    - type: Chain
+      transformations:
+        - type: Include
+          patterns: [ 'resources/**.yaml' ]
+        - type: ReplaceText
+          substitutions:
+            - text: REPLACE_SINGLEUSER_IMAGE_REGISTRY
+              with: "#singleuserImageRegistry"
+            - text: REPLACE_SINGLEUSER_IMAGE_REPOSITORY
+              with: "#singleuserImageRepository"
+            - text: REPLACE_SINGLEUSER_IMAGE_TAG
+              with: "#singleuserImageTag"
+            - text: REPLACE_SINGLEUSER_IMAGE_PULLPOLICY
+              with: "#singleuserImagePullPolicy"
+            - text: REPLACE_SINGLEUSER_IMAGE_COMMAND
+              with: "#singleuserImageCommand"
+            - text: REPLACE_SINGLEUSER_CONTAINER_SECURITY_CONTEXT_RUNASUSER
+              with: "#singleuserContainersecuritycontextRunAsuser"
+            - text: REPLACE_SINGLEUSER_CONTAINER_SECURITY_CONTEXT_RUNASGROUP
+              with: "#singleuserContainersecuritycontextRunAsgroup"
+            - text: REPLACE_SINGLEUSER_POD_SECURITY_CONTEXT_RUNASUSER
+              with: "#singleuserPodsecuritycontextRunAsuser"
+            - text: REPLACE_SINGLEUSER_POD_SECURITY_CONTEXT_RUNASGROUP
+              with: "#singleuserPodsecuritycontextRunAsgroup"
+            - text: REPLACE_PROXY_SERVICE_PUBLIC_TYPE
+              with: "#proxyServicePublicType"
+            - text: REPLACE_PROXY_SERVICE_PUBLIC_PORTS_HTTP
+              with: "#proxyServicePublicPortsHttp"
+
+
 
