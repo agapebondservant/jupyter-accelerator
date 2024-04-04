@@ -1121,12 +1121,12 @@ proxy:
     public:
       ## @param proxy.service.public.type Public service type
       ##
-      type: ClusterIP #LoadBalancer
+      type: REPLACE_PROXY_SERVICE_PUBLIC_TYPE #LoadBalancer
       # HTTP Port
       ## @param proxy.service.public.ports.http Public service HTTP port
       ##
       ports:
-        http: 8009 #80
+        http: REPLACE_PROXY_SERVICE_PUBLIC_PORTS_HTTP #80
       ## @param proxy.service.public.nodePorts.http NodePort for the HTTP endpoint
       ## NOTE: choose port between <30000-32767>
       ##
@@ -1553,16 +1553,16 @@ imagePuller:
 ##
 singleuser:
   image:
-    registry: docker.io
-    repository: jupyter/tensorflow-notebook
-    tag: python-3.11
+    registry: REPLACE_SINGLEUSER_IMAGE_REGISTRY
+    repository: REPLACE_SINGLEUSER_IMAGE_REPOSITORY
+    tag: REPLACE_SINGLEUSER_IMAGE_TAG
     digest: ""
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
     ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
     ##
     ##
-    pullPolicy: Always #IfNotPresent
+    pullPolicy: REPLACE_SINGLEUSER_IMAGE_PULLPOLICY
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
     ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -1584,7 +1584,7 @@ singleuser:
   ## @param singleuser.command Override Single User default command
   ##
   command: #[]
-    - start-notebook.py
+    - REPLACE_SINGLEUSER_IMAGE_COMMAND
   ## @param singleuser.extraEnvVars Extra environment variables that should be set for the user pods
   ## ref: https://zero-to-jupyterhub.readthedocs.io/en/latest/resources/reference.html#singleuser-extraenv
   ##
@@ -1625,8 +1625,8 @@ singleuser:
   containerSecurityContext:
     enabled: true
     seLinuxOptions: null
-    runAsUser: 1000
-    runAsGroup: 100
+    runAsUser: REPLACE_SINGLEUSER_CONTAINER_SECURITY_CONTEXT_RUNASUSER
+    runAsGroup: REPLACE_SINGLEUSER_CONTAINER_SECURITY_CONTEXT_RUNASGROUP
     runAsNonRoot: true
     privileged: false
     readOnlyRootFilesystem: false
@@ -1649,8 +1649,8 @@ singleuser:
     sysctls: []
     supplementalGroups: []
     fsGroup: 1001
-    runAsUser: 1000
-    runAsGroup: 100
+    runAsUser: REPLACE_SINGLEUSER_POD_SECURITY_CONTEXT_RUNASUSER
+    runAsGroup: REPLACE_SINGLEUSER_POD_SECURITY_CONTEXT_RUNASGROUP
   ## @param singleuser.podLabels Extra labels for Single User pods
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   ##

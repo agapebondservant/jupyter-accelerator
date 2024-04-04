@@ -58,7 +58,7 @@ accelerator:
       dependsOn:
         name: mlPlatformType
         value: notebook
-    - name: singleuserCommand
+    - name: singleuserImageCommand
       inputType: text
       display: true
       label: 'singleuser.image.command'
@@ -110,7 +110,7 @@ accelerator:
       inputType: text
       display: true
       label: 'proxy.service.public.ports.http'
-      defaultValue: 'ClusterIP'
+      defaultValue: '8009'
       dependsOn:
         name: mlPlatformType
         value: notebook
