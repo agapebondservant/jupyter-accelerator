@@ -142,7 +142,7 @@ accelerator:
       inputType: text
       display: true
       label: 'proxy.ingress.annotations.self.signed'
-      defaultValue: 'contour'
+      defaultValue: 'true'
       dependsOn:
         name: mlPlatformType
         value: notebook
