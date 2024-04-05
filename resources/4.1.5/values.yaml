@@ -97,7 +97,7 @@ hub:
   baseUrl: /
   ## @param hub.adminUser Hub Dummy authenticator admin user
   ##
-  adminUser: test #user
+  adminUser: REPLACE_HUB_ADMINUSER #user
   ## @param hub.password Hub Dummy authenticator password
   ##
   password: ""

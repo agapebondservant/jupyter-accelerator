@@ -154,6 +154,14 @@ accelerator:
       dependsOn:
         name: mlPlatformType
         value: notebook
+    - name: hubAdminuser
+      inputType: text
+      display: true
+      label: 'hub.adminuser'
+      defaultValue: 'admin'
+      dependsOn:
+        name: mlPlatformType
+        value: notebook
 engine:
   type: Merge
   sources:
@@ -195,6 +203,8 @@ engine:
               with: "#proxyIngressAnnotationsTls"
             - text: REPLACE_PROXY_INGRESS_ANNOTATIONS_SELF_SIGNED
               with: "#proxyIngressAnnotationsSelfSigned"
+            - text: REPLACE_HUB_ADMINUSER
+              with: "#hubAdminuser"
 
 
 
