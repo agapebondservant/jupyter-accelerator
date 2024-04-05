@@ -138,18 +138,18 @@ accelerator:
       dependsOn:
         name: mlPlatformType
         value: notebook
-    - name: proxyIngressAnnotationsTls
+    - name: proxyIngressTls
       inputType: text
       display: true
-      label: 'proxy.ingress.annotations.tls'
+      label: 'proxy.ingress.tls'
       defaultValue: 'true'
       dependsOn:
         name: mlPlatformType
         value: notebook
-    - name: proxyIngressAnnotationsSelfSigned
+    - name: proxyIngressSelfSigned
       inputType: text
       display: true
-      label: 'proxy.ingress.annotations.self.signed'
+      label: 'proxy.ingress.selfSigned'
       defaultValue: 'true'
       dependsOn:
         name: mlPlatformType
@@ -199,10 +199,10 @@ engine:
               with: "#proxyIngressHostname"
             - text: REPLACE_PROXY_INGRESS_ANNOTATIONS_WEBSOCKET_ROUTES
               with: "#proxyIngressAnnotationsWebsocketRoutes"
-            - text: REPLACE_PROXY_INGRESS_ANNOTATIONS_TLS
-              with: "#proxyIngressAnnotationsTls"
-            - text: REPLACE_PROXY_INGRESS_ANNOTATIONS_SELF_SIGNED
-              with: "#proxyIngressAnnotationsSelfSigned"
+            - text: REPLACE_PROXY_INGRESS_TLS
+              with: "#proxyIngressTls"
+            - text: REPLACE_PROXY_INGRESS_SELF_SIGNED
+              with: "#proxyIngressSelfSigned"
             - text: REPLACE_HUB_ADMINUSER
               with: "#hubAdminuser"
 
