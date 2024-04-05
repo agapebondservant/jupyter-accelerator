@@ -168,7 +168,7 @@ engine:
     - type: Chain
       transformations:
         - type: Include
-          patterns: [ 'resources/**.yaml' ]
+          patterns: [ 'resources/**/*.yaml' ]
         - type: ReplaceText
           substitutions:
             - text: REPLACE_SINGLEUSER_IMAGE_REGISTRY
