@@ -1,0 +1,19 @@
+#@ load("@ytt:overlay", "overlay")
+---
+spec:
+  values:
+    singleuser:
+      image:
+        #@overlay/match
+        registry: REPLACE_SINGLEUSER_IMAGE_REGISTRY
+        #@overlay/match
+        repository: REPLACE_SINGLEUSER_IMAGE_REPOSITORY
+        #@overlay/match
+        tag: REPLACE_SINGLEUSER_IMAGE_TAG
+        #@overlay/match
+        pullPolicy: REPLACE_SINGLEUSER_IMAGE_PULLPOLICY
+      containerSecurityContext:
+        #@overlay/match
+        runAsUser: REPLACE_SINGLEUSER_CONTAINER_SECURITY_CONTEXT_RUNASUSER
+        #@overlay/match
+        runAsGroup: REPLACE_SINGLEUSER_CONTAINER_SECURITY_CONTEXT_RUNASGROUP
