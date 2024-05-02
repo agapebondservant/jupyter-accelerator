@@ -1,0 +1,23 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: jupyterhub
+  namespace: jupyterhub
+spec:
+  chart:
+    spec:
+      chart: jupyterhub
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: jupyterhub
+        namespace: jupyterhub
+      version: '7.0.3'
+  install:
+    createNamespace: true
+  interval: 5m0s
+  targetNamespace: jupyterhub
+  valuesFrom:
+    - kind: ConfigMap
+      name: jupytervalues
