@@ -9,7 +9,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: mlops-flux-system
-  path: ./clusters/mlops/jupyterhub-accelerator/resources/4.1.5/gitops
+  path: ./clusters/mlops/jupyterhub/bitnami-jupyter/4.1.5/gitops
   prune: true
   wait: true
   timeout: 10m0s
