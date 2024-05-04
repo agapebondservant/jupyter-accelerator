@@ -3,7 +3,7 @@
 tmp*.yaml
 package-contents
 package-repo
-resources/jupyter-packagerepository
-resources/jupyter-package-template.yaml
-resources/jupyter-values.yaml
-resources/jupyter-deployment.yaml
+bitnami-jupyter/jupyter-packagerepository
+bitnami-jupyter/jupyter-package-template.yaml
+bitnami-jupyter/jupyter-values.yaml
+bitnami-jupyter/jupyter-deployment.yaml
