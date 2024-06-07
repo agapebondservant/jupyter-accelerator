@@ -170,7 +170,7 @@ engine:
         - type: Include
           patterns: [ '**/**.yaml' ]
         - type: Exclude
-          patterns: ["accelerator.yaml"]
+          patterns: ["accelerator.yaml", "catalog-info.yaml"]
         - type: ReplaceText
           substitutions:
             - text: REPLACE_SINGLEUSER_IMAGE_REGISTRY
