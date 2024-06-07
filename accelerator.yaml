@@ -167,10 +167,10 @@ engine:
   sources:
     - type: Chain
       transformations:
-        - type: Include
-          patterns: [ '**/**.yaml' ]
         - type: Exclude
           patterns: ["accelerator.yaml", "catalog-info.yaml"]
+        - type: Include
+          patterns: [ '**/**.yaml' ]
         - type: ReplaceText
           substitutions:
             - text: REPLACE_SINGLEUSER_IMAGE_REGISTRY
