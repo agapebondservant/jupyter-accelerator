@@ -116,7 +116,10 @@ resources/scripts/deploy-helm.sh
 
 * The JupyterHub instance endpoint should be available here - might take up to a minute to load. (NOTE: Uses dummy authentication, so authenticate with any username/password):
 ```
+# On AWS:
 export JUPYTERHUB_URL_INSTANCE=$(kubectl get svc --namespace ${JUPYTER_NAMESPACE} proxy-public -o jsonpath="{.status.loadBalancer.ingress[0].hostname}")
+# On GCP:
+export JUPYTERHUB_URL_INSTANCE=$(kubectl get svc --namespace ${JUPYTER_NAMESPACE} proxy-public -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
 echo http://$JUPYTERHUB_URL_INSTANCE
 ```
 
