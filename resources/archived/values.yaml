@@ -3,7 +3,7 @@
 namespace: default
 base_domain: tanzudatatap.com
 image_name: oawofolu/jupyterhub-single-user-helm
-image_tag: "3.2.1"
+image_tag: "3.2.1a"
 image_pull_secret: registry-credentials
 image_pull_policy: Always
 extra_volume_1: bkstg-volume
