@@ -9,7 +9,7 @@ ENV NB_USER=jovyan \
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install -r /tmp/requirements.txt
 COPY 0-init.py /tmp
-COPY connect_template.ipynb /tmp
+COPY *.ipynb /tmp
 
 RUN git clone https://github.com/agapebondservant/client-python-servicebindings.git /tmp/git
 
